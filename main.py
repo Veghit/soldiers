@@ -56,15 +56,50 @@ def match_soldiers_to_volunteers(soldiers, volunteers):
     return matches
 
 
+# Example data for the XLSX file
+volunteer_data = {
+    "Name": ["David Cohen", "Sara Levy"],
+    "Address": ["123 Kibbutz Galuyot St, Tel Aviv", "456 Herzl St, Jerusalem"],
+    "City": ["Tel Aviv", "Jerusalem"],
+    "Gender": ["Male", "Female"],
+    "Religiosity": ["High", "Medium"]
+}
+
+soldier_data = {
+    "Name": ["Michael Goldstein", "Rebecca Shapiro"],
+    "Address": ["789 Ben Yehuda St, Haifa", "101 Hillel St, Rishon LeZion"],
+    "City": ["Haifa", "Rishon LeZion"],
+    "Gender": ["Male", "Female"],
+    "Religiosity": ["Low", "High"]
+}
+
+# Create a DataFrame
+df_volunteers = pd.DataFrame(volunteer_data)
+df_soldiers = pd.DataFrame(soldier_data)
+
+# Save to an Excel file
+example_file = "example_file.xlsx"
+with pd.ExcelWriter(example_file) as writer:
+    df_volunteers.to_excel(writer, sheet_name='Volunteer Data', index=False)
+    df_soldiers.to_excel(writer, sheet_name='Soldier Data', index=False)
+
 # Set page config for layout and color
 st.set_page_config(page_title="Soldier to Volunteer Matcher", page_icon=":handshake:",
-                   layout="wide")
+                   layout="centered")
 
 st.title("עמותת אח גדול - Soldier to Volunteer Matcher")
 st.markdown("""
 ## Empowering Soldiers with Community Support
 Welcome to our platform where we connect soldiers with dedicated volunteers who have walked a similar path. Our mission is to provide personal guidance, assistance with rights, and integration into Israeli society.
 """)
+
+with open(example_file, "rb") as file:
+    btn = st.download_button(
+        label="Download an example XLSX file",
+        data=file,
+        file_name="example_file.xlsx",
+        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
 
 uploaded_file = st.file_uploader("Upload an XLSX file", type=["xlsx"],
                                  help="Upload your Excel file containing the volunteer and soldier data.")
