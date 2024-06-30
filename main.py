@@ -84,25 +84,48 @@ with pd.ExcelWriter(example_file) as writer:
     df_soldiers.to_excel(writer, sheet_name='Soldier Data', index=False)
 
 # Set page config for layout and color
-st.set_page_config(page_title="Soldier to Volunteer Matcher", page_icon=":handshake:",
+st.set_page_config(page_title="התאמת חיילים למתנדבים", page_icon=":handshake:",
                    layout="centered")
 
-st.title("עמותת אח גדול - Soldier to Volunteer Matcher")
 st.markdown("""
-## Empowering Soldiers with Community Support
-Welcome to our platform where we connect soldiers with dedicated volunteers who have walked a similar path. Our mission is to provide personal guidance, assistance with rights, and integration into Israeli society.
+<style>
+body, html {
+    direction: RTL;
+    unicode-bidi: bidi-override;
+    text-align: right;
+}
+p, div, input, label, h1, h2, h3, h4, h5, h6 {
+    direction: RTL;
+    unicode-bidi: bidi-override;
+    text-align: right;
+}
+</style>
+""", unsafe_allow_html=True)
+
+st.image("logo_bigbrother_shakuf.png", width=300)
+
+st.title("עמותת אח גדול - התאמת חיילים למתנדבים")
+
+st.markdown("""
+## העצמת חיילים בתמיכת הקהילה
+ברוכים הבאים לפלטפורמה שלנו, בה אנו מחברים חיילים למתנדבים מסורים שעברו דרך דומה. המשימה שלנו היא לספק הדרכה אישית, סיוע בזכויות ושילוב בחברה הישראלית.
+""")
+
+st.markdown("""
+### הגיון פונקציית ההתאמה
+פונקציית ההתאמה נועדה לשדך בין חיילים למתנדבים בהתבסס על מספר קריטריונים. תחילה היא מחפשת חיילים באותה עיר של המתנדב, תוך התחשבות ברמת דתיות ובמין. אם לא נמצאו חיילים מתאימים בעיר, היא מתחשבת בקריטריונים של דתיות ומין בלבד. אם גם אז לא נמצאו, היא מצרפת את המתנדב לחייל זמין כלשהו. המטרה היא להבטיח התאמה כמה שיותר מדויקת בין החייל למתנדב, תוך שמירה על גמישות במקרים בהם אין התאמות מדויקות.
 """)
 
 with open(example_file, "rb") as file:
     btn = st.download_button(
-        label="Download an example XLSX file",
+        label="הורד קובץ XLSX לדוגמה",
         data=file,
         file_name="example_file.xlsx",
         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
 
-uploaded_file = st.file_uploader("Upload an XLSX file", type=["xlsx"],
-                                 help="Upload your Excel file containing the volunteer and soldier data.")
+uploaded_file = st.file_uploader("העלה קובץ XLSX", type=["xlsx"],
+                                 help="העלה את קובץ האקסל המכיל את נתוני המתנדבים והחיילים.")
 
 if uploaded_file:
     xls = pd.ExcelFile(uploaded_file)
@@ -135,5 +158,5 @@ if uploaded_file:
 
                 df_matches = pd.DataFrame(matched_data)
 
-                st.markdown("### Matched Pairs")
+                st.markdown("### זוגות תואמים")
                 st.dataframe(df_matches)
