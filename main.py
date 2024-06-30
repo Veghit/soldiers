@@ -89,12 +89,7 @@ st.set_page_config(page_title="התאמת חיילים למתנדבים", page_i
 
 st.markdown("""
 <style>
-body, html {
-    direction: RTL;
-    unicode-bidi: bidi-override;
-    text-align: right;
-}
-p, div, input, label, h1, h2, h3, h4, h5, h6 {
+p, h1, h2, h3, h4, h5, h6 {
     direction: RTL;
     unicode-bidi: bidi-override;
     text-align: right;
@@ -102,7 +97,7 @@ p, div, input, label, h1, h2, h3, h4, h5, h6 {
 </style>
 """, unsafe_allow_html=True)
 
-st.image("logo_bigbrother_shakuf.png", width=300)
+st.image("logo_bigbrother_shakuf.png", use_column_width=True)
 
 st.title("עמותת אח גדול - התאמת חיילים למתנדבים")
 
